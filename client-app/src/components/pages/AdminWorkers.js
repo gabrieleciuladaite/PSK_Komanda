@@ -4,14 +4,14 @@ import Header from '../layouts/AdminHeader';
 import Footer from '../layouts/Footer';
 import Content from '../sections/workers/Content';
 
-const pagelocation = 'Checkout'
+const pagelocation = 'Administration'
 
 class Workers extends Component {
     render() {
         return (
             <Fragment>
                 <MetaTags>
-                    <title>Checkout | {pagelocation}</title>
+                    <title>Workers | {pagelocation}</title>
                     <meta
                         name="description"
                         content="#"

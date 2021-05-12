@@ -14,7 +14,7 @@ class UpcomingOrdersblock extends Component {
                                 <th className="remove-item" />
                                 <th>Product</th>
                                 <th>Price</th>
-                                <th>Qunantity</th>
+                                <th>Quantity</th>
                                 <th>Total</th>
                             </tr>
                         </thead>
