@@ -1,51 +1,50 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import cart from '../../../data/cart.json';
+import orders from '../../../data/upcomingOrders.json';
 
 class UpcomingOrdersblock extends Component {
+    
+    deleteOrderFromUpcomming = (id) =>{
+        let table = document.querySelector('tbody');
+        table.deleteRow(id-1);
+    };
+
     render() {
         return (
             <div className="section">
                 <div className="container">
-                    {/* Cart Table Start */}
+                    {/* Upcoming Orders Start */}
+                    <h4>Upcoming Orders</h4>
                     <table className="andro_responsive-table">
                         <thead>
                             <tr>
-                                <th className="remove-item" />
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Qunantity</th>
+                                <th>Order Nr.</th>
+                                <th>Products</th>
+                                <th>Quantity</th>
                                 <th>Total</th>
+                                <th>Order Shipping Date</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {cart.map((item, i) => (
+                            {
+                                orders.map((item, i) => (
                                 <tr key={i}>
-                                    <td className="remove">
-                                        <button type="button" className="close-btn close-danger remove-from-cart">
-                                            <span />
-                                            <span />
-                                        </button>
+                                    <td data-title="Order Nr.">{item.orderNr}</td>
+                                    <td data-title="Products">{item.products.join(", ")}</td>
+                                    <td data-title="Quantity">{item.qty.join(", ")}</td>
+                                    <td data-title="Total">{item.total}</td>
+                                    <td data-title="Order Shipping Date">{item.orderDate}</td>
+                                    <td data-title = "Status">
+                                        <select onChange={()=> {this.deleteOrderFromUpcomming(i) }}>
+                                            <option value = "Upcoming">Upcoming</option>
+                                            <option value = "Finished">Finished</option>
+                                        </select>
                                     </td>
-                                    <td data-title="Product">
-                                        <div className="andro_cart-product-wrapper">
-                                            <img src={process.env.PUBLIC_URL + "/" + item.img} alt={item.title} />
-                                            <div className="andro_cart-product-body">
-                                                <h6> <Link to="#">{item.title}</Link> </h6>
-                                                <p>{item.qty} Kilos</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-title="Price"> <strong>{new Intl.NumberFormat().format((item.price).toFixed(2))}$</strong> </td>
-                                    <td className="quantity" data-title="Quantity">
-                                        <input type="number" className="qty form-control" defaultValue={item.qty} />
-                                    </td>
-                                    <td data-title="Total"> <strong>{new Intl.NumberFormat().format((item.qty * item.price).toFixed(2))}$</strong> </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    {/* Cart Table End */}
+                    {/* Upcoming Orders End */}
                 </div>
             </div>
         );

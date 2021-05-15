@@ -1,0 +1,29 @@
+[
+    {
+        "id": 4,
+		"orderNr": "00123",
+        "products": ["Pink Bouquet", "Red Bouquet"],
+        "qty": [1, 1],
+        "total": 54.99,
+		"orderDate": "2021-06-03",
+		"finished": false
+    },
+	{
+        "id": 5,
+		"orderNr": "00124",
+        "products": ["Pink Roses"],
+        "qty": [5],
+        "total": 14.99,
+		"orderDate": "2021-06-08",
+		"finished": false
+    },
+	{
+        "id": 6,
+		"orderNr": "00125",
+        "products": ["White Lilies"],
+        "qty": [9],
+        "total": 21.99,
+		"orderDate": "2021-06-10",
+		"finished": false
+    }
+]

@@ -9,11 +9,11 @@ class WorkerForm extends Component {
                 <div className="container">
                     <form method="post">
                         <div className="row">
-                            <div className="col-xl-20">
+                            <div className="col-xl">
                                 {/* New Worker's Information Start*/}
-                                <h4>Add new worker</h4>
+                                <h4> Add new worker</h4>
                                 <div className="row">
-                                    <div className="form-group col-xl">
+                                    <div className="form-group col-xl-6">
                                         <label>First Name <span className="text-danger">*</span></label>
                                         <input type="text" placeholder="First Name" name="fname" className="form-control" required />
                                     </div>

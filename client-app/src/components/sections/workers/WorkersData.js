@@ -1,14 +1,28 @@
-import { Component } from "react";
-import { render } from "react-dom";
+import { Component} from "react";
 import workerList from '../../../data/workers.json';
+
 
 class WorkersBlock extends Component
 {
+    constructor()
+    {
+        super();
+        this.state = {
+            rows: workerList,
+        };
+    }
+
+    deleteWorker = (id) =>{
+        console.log(id-1);
+        let table = document.querySelector('tbody');
+        table.deleteRow(id-1);
+    };
+
     render()
     {
         return(
             <div className="section">
-                <div className = "container">
+                <div className = "container col-2xl">
                     <h4>Remove worker</h4>
                     <table>
                         <thead>
@@ -28,7 +42,7 @@ class WorkersBlock extends Component
                                     <td data-title="Email Address">{item.email}</td>
                                     <td data-title="Phone Number">{item.phone}</td>
                                     <td className="remove">
-                                        <button type="button" className="close-btn close-danger remove-from-cart">
+                                        <button type="button" className="close-btn close-danger remove-from-cart" onClick={()=> {this.deleteWorker(i) }} >
                                             <span />
                                             <span />
                                         </button>

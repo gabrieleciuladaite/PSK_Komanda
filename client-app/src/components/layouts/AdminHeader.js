@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import classNames from 'classnames';
 import HeaderComponent from '../../helper/Navigationhelper';
 import AdminNavigation from './AdminNavigation';
 
@@ -30,7 +29,9 @@ class AdminHeader extends HeaderComponent {
                         <div className="container">
                             <nav className="navbar">
                                 {/* Logo */}
-                                <Link className="navbar-brand" to="/"> <img src={process.env.PUBLIC_URL + "/assets/img/logo.png"} alt="logo" /> </Link>
+                                <Link className="navbar-brand" to="/"> 
+                                    <img src={process.env.PUBLIC_URL+"/assets/img/logo.png"} alt = "logo" /> 
+                                </Link>
                                 {/* Menu */}
                                 <AdminNavigation />
                             </nav>
