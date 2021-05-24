@@ -18,7 +18,7 @@ class Register extends Component {
                     />
                 </MetaTags>
                 <Header />
-                <Content/>
+                <Content />
                 <Footer footer={{ style:"", logo:"assets/img/logo.png" }} />
             </Fragment>
         );

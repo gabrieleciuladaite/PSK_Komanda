@@ -18,6 +18,10 @@ const Contact = React.lazy(() => import("./components/pages/Contact"));
 const Account = React.lazy(() => import("./components/pages/Account"));
 
 
+//Modal:
+const NotRegisteredModal = React.lazy(() => import("./components/layouts/NotRegisteredModal"));
+
+
 // Admin Pages:
 const AdminHome = React.lazy(() => import ("./components/pages/AdminHome"));
 const UpcomingOrders = React.lazy(() => import ("./components/pages/UpcomingOrders"));

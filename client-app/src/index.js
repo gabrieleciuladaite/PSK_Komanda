@@ -10,6 +10,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/slick-carousel/slick/slick.css';
 import '../node_modules/slick-carousel/slick/slick-theme.css';
 import '../node_modules/magnific-popup/dist/magnific-popup.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import './assets/fonts/flaticon/flaticon.css';
 import './assets/fonts/font-awesome/css/all.min.css';
 import './assets/css/style.css';

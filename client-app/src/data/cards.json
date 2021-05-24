@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "name": "Happy Birthday Card",
+        "path": "/assets/img/cards/birthday.png"
+    },
+    {
+        "id": "2",
+        "name": "Merry Christmas Card",
+        "path":"/assets/img/cards/christmas.png"
+    },
+    {
+        "id": "3",
+        "name": "Father's day Card",
+        "path": "/assets/img/cards/father.png"
+    },
+    {
+        "id": "4",
+        "name": "Happy Easter Card",
+        "path": "/assets/img/cards/easter.png"
+    },
+    {
+        "id": "5",
+        "name": "Woman's day Card",
+        "path": "/assets/img/cards/womensday.png"
+    }
+]

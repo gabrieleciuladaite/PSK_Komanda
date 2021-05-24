@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
-import Content from '../sections/cart/Content';
+import Content from '../sections/cart/Content2';
 
 const pagelocation = 'Cart'
 

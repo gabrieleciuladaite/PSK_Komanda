@@ -4,17 +4,17 @@ const iconspost = [
     {
         icon: "flaticon-diet",
         title: "Guaranteed Fresh Flower",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        para: "Our flowers picked fresh straight from the finest florist farmers!",
     },
     {
         icon: "flaticon-harvest",
         title: "Hand Finished",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        para: "Premium hand finished flower bouquets guaranteed",
     },
     {
         icon: "flaticon-tag",
-        title: "Cheap & Fresh Floristicaryy",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        title: "Cheap & Fresh",
+        para: "We ensure the best prices in the whole country!",
     },
 ]
 
