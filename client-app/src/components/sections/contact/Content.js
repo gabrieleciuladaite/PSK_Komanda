@@ -2,37 +2,22 @@ import React, { Component, Fragment } from 'react';
 import { Accordion, Card, NavLink } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-// Locations
-const locationbox = [
-    {
-        photo: "assets/img/locations/1.jpg",
-        title: "Find Us In",
-        titlespan: "Greece",
-        para: "Cras ultricies ligula sed magna dictum porta. Proin eget tortor risus.",
-    },
-    {
-        photo: "assets/img/locations/2.jpg",
-        title: "Find Us In",
-        titlespan: "New York",
-        para: "Cras ultricies ligula sed magna dictum porta. Proin eget tortor risus.",
-    },
-];
 // Info
 const contactinfo = [
     {
         icon: "flaticon-call",
         title: "Call Center",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        para: "Call or message us at our call center by phone or whatsapp: +37012341234",
     },
     {
         icon: "flaticon-email",
         title: "Mail Us",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        para: "You can also contact us through email: kazkoks.email@gmail.com",
     },
     {
         icon: "flaticon-location",
         title: "Nearest Branch",
-        para: "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        para: "Or you can visit the nearest branch! Address: Naugarduko g. 24, Vilnius 03225",
     },
 ]
 
@@ -62,6 +47,13 @@ class Content extends Component {
                     </div>
                 </div>
                 {/* Icons End */}
+                <div className="section section-padding pt-0">
+                    <div className="container">
+                        <div className="andro_cta">
+                            <img src={process.env.PUBLIC_URL + "/assets/img/cta/6.jpg"} alt="cta" />
+                        </div>
+                    </div>
+                </div>
             </Fragment>
         );
     }
