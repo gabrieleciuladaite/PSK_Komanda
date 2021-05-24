@@ -15,11 +15,14 @@ function StorageBlock() {
     baseURL: "http://134.209.227.30:5000/api",
   });
 
-  function handleLink(category)
-  {
-    if(category==="flower") setLink("/flower/");
-    else if(category==="bouquet") setLink("/bouquet/");
-    else console.log("works");
+  function handleLink(item) {
+    if (item.categories[0] == null) {
+      console.log("No category");
+    } else {
+      if (item.categories[0].category.name === "flower") setLink("/flower");
+      else if (item.categories[0].category.name === "bouquet") setLink("/bouquet");
+      else setLink("");
+    }
   }
   const togglePopUp = () => {
     setIsOpen(!isOpen);
@@ -31,7 +34,7 @@ function StorageBlock() {
       setStorage(data);
     };
     getStorage();
-  }, [api]);
+  }, []);
 
   const useSortableData = (storage, config = null) => {
     const [sortConfig, setSortConfig] = React.useState(config);
@@ -84,7 +87,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("photo")}
+                onClick={() => requestSort("photo")}
                 className={getClassNamesFor("photo")}
               >
                 Picture
@@ -93,7 +96,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("title")}
+                onClick={() => requestSort("title")}
                 className={getClassNamesFor("title")}
               >
                 Product Name
@@ -102,7 +105,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("price")}
+                onClick={() => requestSort("price")}
                 className={getClassNamesFor("price")}
               >
                 Unit Price
@@ -111,7 +114,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("stock")}
+                onClick={() => requestSort("stock")}
                 className={getClassNamesFor("stock")}
               >
                 Quantity
@@ -120,7 +123,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("items.name")}
+                onClick={() => requestSort("items.name")}
                 className={getClassNamesFor("items.name")}
               >
                 Types
@@ -129,7 +132,7 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={()=> requestSort("description")}
+                onClick={() => requestSort("description")}
                 className={getClassNamesFor("description")}
               >
                 Description
@@ -138,13 +141,12 @@ function StorageBlock() {
           </tr>
         </thead>
         <tbody>
-          {storage.map((item) => (
-            <tr key={item.itemBundleId}>
+          {storage.map((item, i) => (
+            <tr key={i}>
               <td>
                 {item.photo}
-                <button onClick={console.log(item)}>
-                  Edit
-                </button>
+                  <Link onLoad={handleLink(item)} className="andro_btn-custom primary" to={`${link}/${item.itemBundleId}`}>Edit</Link>
+                
               </td>
               <td>{item.title}</td>
               <td>{item.price}€</td>
@@ -178,7 +180,7 @@ function StorageBlock() {
             <>
               <b>Choose what you want to add to storage</b>
               <br />
-              <Link to="/flower" className="andro_btn-custom primary">
+              <Link to="/newflower" className="andro_btn-custom primary">
                 Flower
               </Link>
               <Link to="/bouquet" className="andro_btn-custom primary">

@@ -109,11 +109,6 @@ class UpcomingOrdersblock extends Component {
     console.log(this.state.orders);
   };
 
-  createOrder = async () => {
-    let response = await api.post("/", {});
-    console.log(response);
-  };
-
   render() {
     return (
       <div className="section">

@@ -12,7 +12,7 @@ class BouquetBlock extends Component {
               <tr>
                 <th>Picture</th>
                 <th>Product Name</th>
-                <th>Unit Price</th>
+                <th>Unit Price (€)</th>
                 <th>Type of Flowers</th>
               </tr>
             </thead>

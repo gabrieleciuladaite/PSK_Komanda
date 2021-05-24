@@ -3,7 +3,7 @@ import {useParams} from "react-router";
 import axios from 'axios';
 import PopUp from "../storage/PopUp";
 
-function FlowerBlock() {
+function NewFlowerBlock() {
   const [product, setProduct] = useState([]);
   const {productId} = useParams();
   const [isOpen, setIsOpen] = useState(false);
@@ -13,34 +13,13 @@ function FlowerBlock() {
   const api = axios.create({
     baseURL: "http://134.209.227.30:5000/api",
   });
-  useEffect(()=>
-  {
-    const getProduct = async() =>
-    {
-      let data = await api.get("/ItemBundle/"+productId).then(({ data }) => data);
-      setProduct(data);
-    }
-    getProduct();
-  }, []);
 
-  async function updateProduct()
-  {
-    let data = await api.put(`/ItemBundle/${productId}`, product,{
-      _method: 'PUT'
-    });
-    console.log(data.isSuccess);
-    if(data.isSuccess) setIsOpen(true);
-    //this.getProduct();
-  }
+  async function createProduct() {
+    setProduct((prevProduct)=>({...prevProduct, "categories":{"category":{"name": "flower"}}}))
+    let response = await api.post("/ItemBundle/", product);
+    console.log(response);
+  };
 
-  async function deleteProduct()
-  {
-    let data = await api.delete(`/ItemBundle/${productId}`,
-    {
-      _method: 'DELETE'
-    });
-    //this.getProduct();
-  }
   function handleChange(e)
   {
     setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: e.target.value}))
@@ -56,7 +35,7 @@ function FlowerBlock() {
       <div className="section">
         <div className="container">
           {/* Storage Start */}
-          <h4>Edit {product.title}</h4>
+          <h4>Add new flower</h4>
           <table className="andro_responsive-table">
             <thead>
               <tr>
@@ -89,11 +68,8 @@ function FlowerBlock() {
           <input type="text" name="description" onChange={handleChange} value={product.description}></input>
           <br></br>
           <br></br>
-          <button type="button" onClick={deleteProduct} className="andro_btn-custom primary">
-            Remove
-          </button>
-          <button type="button" onClick={updateProduct} className="andro_btn-custom primary">
-            Save
+          <button type="button" onClick={createProduct} className="andro_btn-custom primary">
+            Add new item
           </button>
           {/* Storage End */}
         </div>
@@ -113,4 +89,4 @@ function FlowerBlock() {
     );
 }
 
-export default FlowerBlock;
+export default NewFlowerBlock;
