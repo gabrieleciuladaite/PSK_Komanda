@@ -1,55 +1,198 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import cart from '../../../data/cart.json';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+//import storage from '../../../data/storage.json';
+import PopUp from "./PopUp";
+import axios from "axios";
 
-class StorageBlock extends Component {
-    render() {
-        return (
-            <div className="section">
-                <div className="container">
-                    {/* Cart Table Start */}
-                    <table className="andro_responsive-table">
-                        <thead>
-                            <tr>
-                                <th className="remove-item" />
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Qunantity</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {cart.map((item, i) => (
-                                <tr key={i}>
-                                    <td className="remove">
-                                        <button type="button" className="close-btn close-danger remove-from-cart">
-                                            <span />
-                                            <span />
-                                        </button>
-                                    </td>
-                                    <td data-title="Product">
-                                        <div className="andro_cart-product-wrapper">
-                                            <img src={process.env.PUBLIC_URL + "/" + item.img} alt={item.title} />
-                                            <div className="andro_cart-product-body">
-                                                <h6> <Link to="#">{item.title}</Link> </h6>
-                                                <p>{item.qty} Kilos</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-title="Price"> <strong>{new Intl.NumberFormat().format((item.price).toFixed(2))}$</strong> </td>
-                                    <td className="quantity" data-title="Quantity">
-                                        <input type="number" className="qty form-control" defaultValue={item.qty} />
-                                    </td>
-                                    <td data-title="Total"> <strong>{new Intl.NumberFormat().format((item.qty * item.price).toFixed(2))}$</strong> </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    {/* Cart Table End */}
-                </div>
-            </div>
-        );
+function StorageBlock() {
+  const [storage, setStorage] = useState([]);
+
+  const [link, setLink] = useState("");
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const api = axios.create({
+    baseURL: "http://134.209.227.30:5000/api",
+  });
+
+  function handleLink(item) {
+    if (item.categories[0] == null) {
+      console.log("No category");
+    } else {
+      if (item.categories[0].category.name === "flower") setLink("/flower");
+      else if (item.categories[0].category.name === "bouquet") setLink("/bouquet");
+      else setLink("");
     }
+  }
+  const togglePopUp = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const getStorage = async () => {
+      let data = await api.get("/ItemBundle").then(({ data }) => data);
+      setStorage(data);
+    };
+    getStorage();
+  }, []);
+
+  const useSortableData = (storage, config = null) => {
+    const [sortConfig, setSortConfig] = React.useState(config);
+
+    const sortedItems = React.useMemo(() => {
+      let sortableItems = [...storage];
+      if (sortConfig !== null) {
+        sortableItems.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === "ascending" ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortableItems;
+    }, [storage, sortConfig]);
+
+    const requestSort = (key) => {
+      let direction = "ascending";
+      if (
+        sortConfig &&
+        sortConfig.key === key &&
+        sortConfig.direction === "ascending"
+      ) {
+        direction = "descending";
+      }
+      setSortConfig({ key, direction });
+    };
+
+    return { storage: sortedItems, requestSort, sortConfig };
+  };
+
+  const ProductTable = (props) => {
+    const { storage, requestSort, sortConfig } = useSortableData(
+      props.products
+    );
+    const getClassNamesFor = (name) => {
+      if (!sortConfig) {
+        return;
+      }
+      return sortConfig.key === name ? sortConfig.direction : undefined;
+    };
+    return (
+      <table className="andro_responsive-table">
+        <thead>
+          <tr>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("photo")}
+                className={getClassNamesFor("photo")}
+              >
+                Picture
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("title")}
+                className={getClassNamesFor("title")}
+              >
+                Product Name
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("price")}
+                className={getClassNamesFor("price")}
+              >
+                Unit Price
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("stock")}
+                className={getClassNamesFor("stock")}
+              >
+                Quantity
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("items.name")}
+                className={getClassNamesFor("items.name")}
+              >
+                Types
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort("description")}
+                className={getClassNamesFor("description")}
+              >
+                Description
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {storage.map((item, i) => (
+            <tr key={i}>
+              <td>
+                {item.photo}
+                  <Link onLoad={handleLink(item)} className="andro_btn-custom primary" to={`${link}/${item.itemBundleId}`}>Edit</Link>
+                
+              </td>
+              <td>{item.title}</td>
+              <td>{item.price}€</td>
+              <td>{item.stock}</td>
+              <td>{item.items.name}</td>
+              <td>{item.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  return (
+    <div className="section">
+      <div className="container">
+        {/* Storage Start */}
+        <h4>Storage</h4>
+        <ProductTable products={storage}></ProductTable>
+        <input
+          type="button"
+          value="Add new item"
+          className="andro_btn-custom primary"
+          onClick={togglePopUp}
+        />
+        {/* Storage End */}
+      </div>
+      {isOpen && (
+        <PopUp
+          content={
+            <>
+              <b>Choose what you want to add to storage</b>
+              <br />
+              <Link to="/newflower" className="andro_btn-custom primary">
+                Flower
+              </Link>
+              <Link to="/bouquet" className="andro_btn-custom primary">
+                Bouquet
+              </Link>
+            </>
+          }
+          handleClose={togglePopUp}
+        />
+      )}
+    </div>
+  );
 }
 
 export default StorageBlock;

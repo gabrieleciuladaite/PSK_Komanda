@@ -3,7 +3,7 @@ import MetaTags from "react-meta-tags";
 import Header from '../layouts/AdminHeader';
 import Content from '../sections/upcoming-orders/Content';
 
-const pagelocation = 'Cart';
+const pagelocation = 'Administration';
 
 class UpcomingOrders extends Component {
     render() {

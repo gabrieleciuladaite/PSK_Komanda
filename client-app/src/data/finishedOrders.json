@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+		"orderNr": "00023",
+        "products": ["Pink Bouquet", "Queen Peonies"],
+        "qty": [1,1],
+        "total": 34.99,
+		"orderDate": "2021-03-25",
+		"finished": true
+    },
+    {
+        "id": 2,
+		"orderNr": "00043",
+        "products": ["Roses"],
+        "qty": [11],
+        "total": 43.99,
+		"orderDate": "2021-03-22",
+		"finished": true
+    },
+    {
+        "id": 3,
+		"orderNr": "00044",
+        "products": ["Roses"],
+        "qty": [15],
+        "total": 50.99,
+		"orderDate": "2021-03-20",
+		"finished": true
+    }
+]
