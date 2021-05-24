@@ -1,0 +1,41 @@
+[
+    {
+        "id": 1,
+        "img": "assets/img/products/1.png",
+        "name": "Queen Tulips",
+        "qty": 7,
+        "price": 12.99,
+        "types":["Tulips"],
+        "description":"Royal tulips",
+        "type": "flower"
+    },
+    {
+        "id": 2,
+        "img": "assets/img/products/5.png",
+        "name": "Roses Lillies",
+        "price": 12.99,
+        "types":["Roses", "Lilies"],
+        "description": "Bouquet for your lady",
+        "type": "bouquet"
+    },
+    {
+        "id": 3,
+        "img": "assets/img/products/4.png",
+        "name": "Peonies",
+        "qty": 3,
+        "price": 12.99,
+        "types":["Peonies"],
+        "description": "Simple peonies",
+        "type":"flower"
+    },
+    {
+        "id": 4,
+        "img": "assets/img/products/4.png",
+        "name": "Birthday card",
+        "qty": 7,
+        "price": 0.00,
+        "types":[],
+        "description": "Birthday card for children",
+        "type":"card"
+    }
+]

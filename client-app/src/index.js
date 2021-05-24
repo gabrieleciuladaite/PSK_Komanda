@@ -13,6 +13,7 @@ import '../node_modules/magnific-popup/dist/magnific-popup.css';
 import './assets/fonts/flaticon/flaticon.css';
 import './assets/fonts/font-awesome/css/all.min.css';
 import './assets/css/style.css';
+import './assets/css/newstyle.css';
 import './index.css';
 
 ReactDOM.render(

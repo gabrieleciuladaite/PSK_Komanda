@@ -4,7 +4,7 @@ import Header from '../layouts/AdminHeader';
 import Footer from '../layouts/Footer';
 import Content from '../sections/storage/Content';
 
-const pagelocation = 'Checkout'
+const pagelocation = 'Administration'
 
 class Account extends Component {
     render() {
