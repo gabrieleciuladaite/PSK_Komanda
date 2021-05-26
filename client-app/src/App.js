@@ -31,6 +31,7 @@ const AdminStorage = React.lazy(() => import ("./components/pages/AdminStorage")
 const FlowerPage = React.lazy(() => import ("./components/pages/FlowerPage"));
 const BouquetPage = React.lazy(() => import ("./components/pages/BouquetPage"));
 const NewFlower = React.lazy(() => import ("./components/pages/NewFlower"));
+const NewBouquet = React.lazy(() => import ("./components/pages/NewBouquet"));
 
 // Scroll to Top
 const ScrollToTop = withRouter(({ children, location: { pathname } }) => {
@@ -67,6 +68,7 @@ function App() {
           <Route path="/flower/:productId" component={FlowerPage}/>
           <Route path="/bouquet/:productId" component={BouquetPage}/>
           <Route path="/newflower" component={NewFlower}/>
+          <Route path="/newbouquet" component={NewBouquet}/>
         </ScrollToTop>
       </Suspense>
     </Router>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-//import storage from '../../../data/storage.json';
+import { ToastContainer, toast } from 'react-toastify';
 import PopUp from "./PopUp";
 import axios from "axios";
 
@@ -13,15 +13,16 @@ function StorageBlock() {
 
   const api = axios.create({
     baseURL: "http://134.209.227.30:5000/api",
+    headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
   });
 
   function handleLink(item) {
-    if (item.categories[0] == null) {
-      console.log("No category");
-    } else {
-      if (item.categories[0].category.name === "flower") setLink("/flower");
-      else if (item.categories[0].category.name === "bouquet") setLink("/bouquet");
-      else setLink("");
+    if (item.categories[0] != null) {
+      if (item.categories[0].category.name === "flower") {
+        setLink("/flower/");
+        console.log(item);
+      } else if (item.categories[0].category.name === "bouquet")
+        setLink("/bouquet");
     }
   }
   const togglePopUp = () => {
@@ -31,6 +32,7 @@ function StorageBlock() {
   useEffect(() => {
     const getStorage = async () => {
       let data = await api.get("/ItemBundle").then(({ data }) => data);
+      console.log(data);
       setStorage(data);
     };
     getStorage();
@@ -144,12 +146,18 @@ function StorageBlock() {
           {storage.map((item, i) => (
             <tr key={i}>
               <td>
-                {item.photo}
-                  <Link onLoad={handleLink(item)} className="andro_btn-custom primary" to={`${link}/${item.itemBundleId}`}>Edit</Link>
-                
+                <img src={item.photo} alt=""/>
+                <br/>
+                <Link
+                  onLoad={handleLink(item)}
+                  className="andro_btn-custom primary"
+                  to={`${link}${item.itemBundleId}`}
+                >
+                  Edit
+                </Link>
               </td>
               <td>{item.title}</td>
-              <td>{item.price}€</td>
+              <td>{item.price/100}€</td>
               <td>{item.stock}</td>
               <td>{item.items.name}</td>
               <td>{item.description}</td>
@@ -183,7 +191,7 @@ function StorageBlock() {
               <Link to="/newflower" className="andro_btn-custom primary">
                 Flower
               </Link>
-              <Link to="/bouquet" className="andro_btn-custom primary">
+              <Link to="/newbouquet" className="andro_btn-custom primary">
                 Bouquet
               </Link>
             </>

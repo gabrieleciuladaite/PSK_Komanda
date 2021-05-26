@@ -17,6 +17,7 @@ class AdminHome extends Component {
                 </MetaTags> 
                 <Header/>
                 <Content/>
+                <Footer footer={{ style:"andro_footer-dark", logo:"assets/img/logo.png" }} />
             </Fragment> 
         );
     }

@@ -32,7 +32,9 @@ export default function Content() {
             console.log(response.data);
             toast.success('Success');
             localStorage.setItem('jwt', response.data.token);
-            history.push('/');
+            console.log(response.data);
+            if(response.data.role===0) history.push('/');
+            if(response.data.role===1) history.push('/admin');
         })
             .catch(err => {
                 toast.error(err.message + ". Please try again or contact the creators!");
