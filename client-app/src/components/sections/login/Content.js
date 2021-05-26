@@ -32,9 +32,14 @@ export default function Content() {
             console.log(response.data);
             toast.success('Success');
             localStorage.setItem('jwt', response.data.token);
+
             console.log(response.data);
             if(response.data.role===0) history.push('/');
             if(response.data.role===1) history.push('/admin');
+
+            localStorage.setItem('account', JSON.stringify(response.data));
+            history.push('/');
+
         })
             .catch(err => {
                 toast.error(err.message + ". Please try again or contact the creators!");
@@ -49,10 +54,6 @@ export default function Content() {
     return (
         <div className="section">
             <ToastContainer position="bottom-right" />
-            <div className="imgs-wrapper">
-                <img src={process.env.PUBLIC_URL + "/assets/img/products/1.png"} alt="veg" className="d-none d-lg-block" />
-                <img src={process.env.PUBLIC_URL + "/assets/img/products/14.png"} alt="veg" className="d-none d-lg-block" />
-            </div>
             <div className="container">
                 <div className="andro_auth-wrapper">
                     <div className="andro_auth-description bg-cover bg-center dark-overlay dark-overlay-2" style={{ backgroundImage: "url(" + process.env.PUBLIC_URL + "/assets/img/auth.jpg)" }}>

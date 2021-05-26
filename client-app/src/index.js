@@ -16,6 +16,8 @@ import './assets/fonts/font-awesome/css/all.min.css';
 import './assets/css/style.css';
 import './assets/css/newstyle.css';
 import './index.css';
+import './datetimepicker.css';
+
 
 ReactDOM.render(
   <BrowserRouter basename={'/'}>

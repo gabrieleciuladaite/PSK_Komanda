@@ -6,7 +6,7 @@ export default function NotRegisteredModal()
 {
 
 
-    const [show, setShow] = useState(true); //sita reiksme keisk kei uzsiregino localStorage.getItem('registeredUser') != undefined ? false : true)
+    const [show, setShow] = useState(true);
     const history = useHistory();
 
     const handleClose = () =>
@@ -14,9 +14,12 @@ export default function NotRegisteredModal()
         setShow(false);
     }
 
-    const handleSure = () => {
-        localStorage.setItem('wentRegister','true');
+    const handleRegister = () => {
         history.push('/register');
+    }
+    
+    const handleLogin = () => {
+        history.push('/login');
     }
 
 
@@ -32,11 +35,14 @@ export default function NotRegisteredModal()
                 </Modal.Header>
                 <Modal.Body className="col-lg-6">
                     <div className="andro_newsletter-popup-text-wrapper">
-                        <h3>Hi!</h3>
-                        <p>It seems that you have not registered yet, would you like to register?</p>
+                        <h3>Hello!</h3>
+                        <p>It seems that you have not registered yet, would you like to register or login?</p>
                     </div>
-                    <button type="submit" className="andro_btn-custom" onClick={handleSure}>Sure!</button>
-                    <span className="newsletter-popup-trigger" onClick={handleClose}>No Thanks</span>
+                    <button className="andro_btn-custom" onClick={handleLogin}>Login</button>
+                    <br />
+                    <button className="andro_btn-custom" onClick={handleRegister}>Register</button>
+                    <br />
+                    <button className="andro_btn-custom" onClick={handleClose}>No Thanks</button>
                 </Modal.Body>
             </div>
         </Modal>

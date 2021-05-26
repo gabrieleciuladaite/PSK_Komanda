@@ -94,7 +94,7 @@ export default function Content(props) {
                             <div className="row">
                                 <div className="col-md-5">
                                     <div className="andro_product-single-thumb">
-                                        <img src={process.env.PUBLIC_URL + "/" + item.photo} alt={item.title} />
+                                        <img src={item.photo} alt={item.title} />
                                     </div>
                                 </div>
                                 <div className="col-md-7">
@@ -103,6 +103,12 @@ export default function Content(props) {
                                         <div className="andro_product-price">
                                             <span>{item.price / 100}€</span>
                                         </div>
+
+                                        {item.items.length != 0 ? <strong>Types of flowers: </strong> : ''}
+                                        {item.items.length != 0 ? item.items.map(it => (
+                                            <p key={it.itemId} className="andro_product-excerpt">{it.item.name}</p>
+                                        )) : ''}
+                                        <strong>Description: </strong>
                                         <p className="andro_product-excerpt">{item.description}</p>
                                         <form className="andro_product-atc-form" onSubmit={handleProductSubmit}>
                                             <div className="qty-outter">
