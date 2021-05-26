@@ -13,19 +13,13 @@ import axios from 'axios';
 
 export default function Content() {
 
-    let items = shopbox; //kazkaip gauti is API...
-
-    const [shopItems, setShopItems] = useState(items)
 
     const [itemBundle, setBundleItems] = useState([]);
+    const [renderItems, setRenderItems] = useState([]);
 
     useEffect(() => {
         fetchItemBundles();
     }, []);
-
-    useEffect(() => {
-        console.log(itemBundle);
-    })
 
 
     const fetchItemBundles = async () => {
@@ -33,12 +27,14 @@ export default function Content() {
         setBundleItems(response.data);
     }
 
-    const renderItemsNew = itemBundle.map((item, i) => {
-        return <div key={i} className="col-md-4 col-sm-6 masonry-item">
+    console.log(itemBundle);
+
+    const itemsComponent = itemBundle.map((item) => {
+        return <div key={item.itemBundleId} className="col-md-4 col-sm-6 masonry-item">
         <div className="andro_product andro_product-has-controls">
             <div className="andro_product-thumb">
                 <Link to={"/product-single/" + item.itemBundleId}>
-                    <img src={process.env.PUBLIC_URL + "/" + item.photo} alt={item.title} />
+                    <img src={item.photo} alt={item.title} />
                 </Link>
             </div>
             <div className="andro_product-body">
@@ -59,41 +55,20 @@ export default function Content() {
 
     const handleClickFlowers = () => 
     {
-        const flowersMatch = items.filter(item => {return !item.title.toLowerCase().includes('bouquets')});
-        setShopItems(flowersMatch);
+        //const flowersMatch = items.filter(item => {return !item.title.toLowerCase().includes('bouquets')});
+        //setRenderItems(flowersMatch);
     }
     const handleClickBouquets = () => 
     {
-        const bouquetsMatch = items.filter(item => {return item.title.toLowerCase().includes('bouquets')});
-        setShopItems(bouquetsMatch);
+        //const bouquetsMatch = items.filter(item => {return item.title.toLowerCase().includes('bouquets')});
+        //setShopItems(bouquetsMatch);
     }
 
     const handleClickAll = () => {
-        const allMatch = items;
-        setShopItems(allMatch);
+        //const allMatch = items;
+        //setShopItems(allMatch);
     }
-    //console.log(match);
 
-
-    const renderitems = shopItems.map((item, i) => {
-        return <div key={i} className="col-md-4 col-sm-6 masonry-item">
-            <div className="andro_product andro_product-has-controls">
-                <div className="andro_product-thumb">
-                    <Link to={"/product-single/" + item.itemBundleId}>
-                        <img src={process.env.PUBLIC_URL + "/" + item.photo} alt={item.title} />
-                    </Link>
-                </div>
-                <div className="andro_product-body">
-                    <h5 className="andro_product-title"><Link to={"/product-single/" + item.itemBundleId}> {item.title} </Link> </h5>
-                    <div className="andro_product-price">
-                        <span>{new Intl.NumberFormat().format((item.price).toFixed(2))}$</span>
-                    </div>
-                    <p>{item.description}</p>
-                </div>
-            </div>
-        </div>
-
-    });
 
 
     return (
@@ -130,7 +105,7 @@ export default function Content() {
             {/* Sidebar End */}
             <div className="container">
                 <div className="row justify-content-center">
-                    {renderItemsNew}
+                    {itemsComponent}
                 </div>
             </div>
         </div>

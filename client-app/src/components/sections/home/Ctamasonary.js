@@ -9,7 +9,7 @@ class Ctamasonary extends Component {
                     <div className="andro_cta">
                         <img src={process.env.PUBLIC_URL + "/assets/img/cta/4.jpg"} alt="cta" />
                         <div className="andro_cta-content">
-                            <h4 className="text-white">Flowers and bonquets!</h4>
+                            <h4 className="text-white">Flowers and bouquets!</h4>
                             <Link to="/shop" className="andro_btn-custom btn-sm light">Shop Now</Link>
                         </div>
                     </div>
