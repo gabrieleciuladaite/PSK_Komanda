@@ -11,9 +11,8 @@ class Ctamasonary extends Component {
                             <div className="andro_cta">
                                 <img src={process.env.PUBLIC_URL + "/assets/img/cta/3.jpg"} alt="cta" />
                                 <div className="andro_cta-content">
-                                    <h4 className="text-white">Get Your <span className="fw-400">Peonies</span> </h4>
-                                    <p className="text-white">Cras ultricies ligula sed magna dictum porta. Proin eget tortor risus.</p>
-                                    <Link to="/shop-v1" className="andro_btn-custom btn-sm light">Shop Now</Link>
+                                    <h4 className="text-white"> Check storage</h4>
+                                    <Link to="/storage" className="andro_btn-custom btn-sm light">Storage</Link>
                                 </div>
                             </div>
                         </div>
@@ -21,15 +20,15 @@ class Ctamasonary extends Component {
                             <div className="andro_cta">
                                 <img src={process.env.PUBLIC_URL + "/assets/img/cta/4.jpg"} alt="cta" />
                                 <div className="andro_cta-content">
-                                    <h4 className="text-white">Freshly Flower <span className="fw-400">Lillies</span> </h4>
-                                    <Link to="/shop-v1" className="andro_btn-custom btn-sm light">Shop Now</Link>
+                                    <h4 className="text-white">Check upcoming orders </h4>
+                                    <Link to="/upcoming" className="andro_btn-custom btn-sm light">Upcoming orders</Link>
                                 </div>
                             </div>
                             <div className="andro_cta">
                                 <img src={process.env.PUBLIC_URL + "/assets/img/cta/5.jpg"} alt="cta" />
                                 <div className="andro_cta-content">
-                                    <h4 className="text-white">Freshly Flower <span className="fw-400">Floristicary</span> </h4>
-                                    <Link to="/shop-v1" className="andro_btn-custom btn-sm light">Shop Now</Link>
+                                    <h4 className="text-white"> Add new worker</h4>
+                                    <Link to="/workers" className="andro_btn-custom btn-sm light">Workers</Link>
                                 </div>
                             </div>
                         </div>

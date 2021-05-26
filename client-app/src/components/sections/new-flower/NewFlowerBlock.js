@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
-import {useParams} from "react-router";
+import { useState } from "react";
 import axios from 'axios';
 import PopUp from "../storage/PopUp";
 
 function NewFlowerBlock() {
   const [product, setProduct] = useState([]);
-  const {productId} = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const togglePopUp = () => {
     setIsOpen(!isOpen);
   };
   const api = axios.create({
     baseURL: "http://134.209.227.30:5000/api",
+    headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
   });
 
   async function createProduct() {
-    setProduct((prevProduct)=>({...prevProduct, "categories":{"category":{"name": "flower"}}}))
+    setProduct((prevProduct)=>({...prevProduct, "categories":{"category":{"categoryId": "f027eab0-2adf-4d51-9999-df95e374118f","name": "flower"}}}))
     let response = await api.post("/ItemBundle/", product);
     console.log(response);
   };
