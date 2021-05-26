@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import HeaderComponent from '../../helper/Navigationhelper';
 import Navigation from './Navigation';
@@ -9,11 +9,27 @@ import cartlist from '../../data/cart.json';
 
 export default function Header() {
 
+    const history = useHistory();
+
     const handleLogOutClick = () => {
         console.log('Logging out...');
         localStorage.removeItem('jwt');
+        localStorage.removeItem('card');
+        localStorage.removeItem('cart');
+        localStorage.removeItem('account');
     }
     const isLoggedIn = localStorage.getItem('jwt') ? true : false;
+
+
+    const handleCartClick = () => {
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        if(!cart)
+        {
+            localStorage.setItem('cart',JSON.stringify([]));
+        }
+        history.push('/cart');
+    }
+
 
     return (
         <Fragment>
@@ -45,7 +61,7 @@ export default function Header() {
                             <div className="andro_header-controls">
                                 <ul className="andro_header-controls-inner">
                                     <li className="andro_header-cart">
-                                        <Link to="/cart" title="Your Cart">
+                                        <Link to="/cart" title="Your Cart" onClick={handleCartClick}>
                                             <i className="flaticon-shopping-basket" />
                                         </Link>
                                     </li>

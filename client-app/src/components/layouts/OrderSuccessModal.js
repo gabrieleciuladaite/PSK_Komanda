@@ -12,15 +12,17 @@ export default function NotRegisteredModal()
     const handleClose = () =>
     {
         setShow(false);
+        history.push('/');
+        localStorage.removeItem('cart');
+        localStorage.removeItem('card');
     }
 
-    const handleRegister = () => {
-        history.push('/register');
+    const handleExit = () => {
+        history.push('/');
+        localStorage.removeItem('cart');
+        localStorage.removeItem('card');
     }
     
-    const handleLogin = () => {
-        history.push('/login');
-    }
 
 
     return (
@@ -35,17 +37,12 @@ export default function NotRegisteredModal()
                 </Modal.Header>
                 <Modal.Body className="col-lg-6">
                     <div className="andro_newsletter-popup-text-wrapper">
-                        <h3>Hello!</h3>
-                        <p>It seems that you have not registered yet, would you like to register or login?</p>
+                        <h3>Thank you!</h3>
+                        <p>Order has been successfully submitted. We will contact you shortly!</p>
                     </div>
-                    <button className="andro_btn-custom" onClick={handleLogin}>Login</button>
-                    <br />
-                    <button className="andro_btn-custom" onClick={handleRegister}>Register</button>
-                    <br />
-                    <button className="andro_btn-custom" onClick={handleClose}>No Thanks</button>
+                    <button className="andro_btn-custom" onClick={handleExit}>Close</button>
                 </Modal.Body>
             </div>
         </Modal>
     );
 }
-//<Link to="/register" className="andro_btn-custom">Sure!</Link>
