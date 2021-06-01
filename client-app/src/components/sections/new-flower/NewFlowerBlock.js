@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from 'axios';
 import PopUp from "../storage/PopUp";
+import { ToastContainer, toast } from "react-toastify";
 
 function NewFlowerBlock() {
   const [product, setProduct] = useState([]);
@@ -12,16 +13,58 @@ function NewFlowerBlock() {
     baseURL: "http://134.209.227.30:5000/api",
     headers: {Authorization: `Bearer ${localStorage.getItem('jwt')}`}
   });
+  const price = useRef(0);
 
   async function createProduct() {
-    setProduct((prevProduct)=>({...prevProduct, "categories":{"category":{"categoryId": "f027eab0-2adf-4d51-9999-df95e374118f","name": "flower"}}}))
+    setProduct((prevProduct)=>({...prevProduct, 
+      "price": prevProduct.price*100,
+      "categories": [
+      {
+          "category":
+          {
+              "name": "flower"
+          },
+      }],
+      "items":[{
+        "item":
+        {
+          "name": prevProduct.name,
+          "warehouseStock": prevProduct.stock
+        },
+        "quantity": 1
+      }]}));
+
     let response = await api.post("/ItemBundle/", product);
+    if(response.status===200) toast.success("Item is added successfully");
     console.log(response);
+    setProduct([]);
   };
 
   function handleChange(e)
   {
-    setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: e.target.value}))
+    if(e.target.name ==="price") 
+    {
+      price.current = e.target.value;
+      setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: e.target.value*100}));
+    }
+    else setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: e.target.value}));
+
+    setProduct((prevProduct)=>({...prevProduct, 
+      "categories": [
+      {
+          "category":
+          {
+              "name": "flower"
+          },
+      }],
+      "items":[{
+        "item":
+        {
+          "name": prevProduct.title,
+          "warehouseStock": prevProduct.stock
+        },
+        "quantity": 1
+      }]}));
   }
 
   function handleBlur(e)
@@ -32,6 +75,7 @@ function NewFlowerBlock() {
   console.log(product);
     return (
       <div className="section">
+        <ToastContainer position="bottom-right" />
         <div className="container">
           {/* Storage Start */}
           <h4>Add new flower</h4>
@@ -49,22 +93,22 @@ function NewFlowerBlock() {
                 <div className="andro_cart-product-wrapper">
                   <img src={product.photo} alt="" />
                 </div>
-                <button type="button">Upload</button>
+                <button type="button" className="andro_btn-custom primary" onClick={togglePopUp}>Upload</button>
               </td>
               <td data-title="Product Name">
-                  <input type="text" name="title" onChange={handleChange} value={product.title}></input>
+                  <input type="text" name="title" className="form-control" onChange={handleChange} value={product.title}></input>
               </td>
               <td data-title="Unit Price">
-                  <input type="number" name ="price" min="0" step="0.01" precision={2} onChange={handleChange} onBlur={handleBlur} value={product.price}>
+                  <input type="number" name ="price" className="form-control" min="0" step="0.01" precision={2} onChange={handleChange} onBlur={handleBlur} value={price.current}>
                   </input>
               </td>
               <td data-title="Quantity">
-                <input type="number" name="stock" min="0" onChange={handleChange} onBlur={handleBlur}  value={product.stock}></input>
+                <input type="number" name="stock" className="form-control" min="0" onChange={handleChange} onBlur={handleBlur}  value={product.stock}></input>
               </td>
             </tbody>
           </table>
           <h6>Description</h6>
-          <input type="text" name="description" onChange={handleChange} value={product.description}></input>
+          <input type="text" name="description" className="form-control" onChange={handleChange} value={product.description}></input>
           <br></br>
           <br></br>
           <button type="button" onClick={createProduct} className="andro_btn-custom primary">
@@ -76,9 +120,23 @@ function NewFlowerBlock() {
         <PopUp
           content={
             <>
-              <b>Other user made changes here. Do you want to save your changes?</b>
-              <button className="andro_btn-custom primary">Yes</button>
-              <button className="andro_btn-custom primary">No</button>
+              <b>Upload your photo</b> <br />
+              <br />
+              <input
+                type="text"
+                name="photo"
+                placeholder="type url"
+                className="form-control"
+                onChange={handleChange}
+              ></input>
+              <br />
+              <br />
+              <button
+                className="andro_btn-custom primary"
+                onClick={togglePopUp}
+              >
+                Upload
+              </button>
             </>
           }
           handleClose={togglePopUp}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import PopUp from "./PopUp";
@@ -10,6 +10,7 @@ function StorageBlock() {
   const [link, setLink] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
+  const newLink = useRef("");
 
   const api = axios.create({
     baseURL: "http://134.209.227.30:5000/api",
@@ -18,13 +19,21 @@ function StorageBlock() {
 
   function handleLink(item) {
     if (item.categories[0] != null) {
-      if (item.categories[0].category.name === "flower") {
-        setLink("/flower/");
-        console.log(item);
-      } else if (item.categories[0].category.name === "bouquet")
-        setLink("/bouquet");
+      if (item.categories[0].category.name === "bouquet")
+      {
+        newLink.current ="/bouquet/";
+        console.log("this is bouquet");
+        console.log(newLink);
+      }
+      else if (item.categories[0].category.name === "flower") {
+        newLink.current = "/flower/";
+        console.log("this is flower");
+        console.log(link);
+      }
+      else newLink.current = "";
     }
   }
+
   const togglePopUp = () => {
     setIsOpen(!isOpen);
   };
@@ -125,15 +134,6 @@ function StorageBlock() {
             <th>
               <button
                 type="button"
-                onClick={() => requestSort("items.name")}
-                className={getClassNamesFor("items.name")}
-              >
-                Types
-              </button>
-            </th>
-            <th>
-              <button
-                type="button"
                 onClick={() => requestSort("description")}
                 className={getClassNamesFor("description")}
               >
@@ -143,24 +143,23 @@ function StorageBlock() {
           </tr>
         </thead>
         <tbody>
-          {storage.map((item, i) => (
+          {storage.map((flower, i) => (
             <tr key={i}>
               <td>
-                <img src={item.photo} alt=""/>
+                <img src={flower.photo} alt=""/>
                 <br/>
                 <Link
-                  onLoad={handleLink(item)}
+                  onClick={handleLink(flower)}
                   className="andro_btn-custom primary"
-                  to={`${link}${item.itemBundleId}`}
+                  to={`${newLink.current}${flower.itemBundleId}`}
                 >
                   Edit
                 </Link>
               </td>
-              <td>{item.title}</td>
-              <td>{item.price/100}€</td>
-              <td>{item.stock}</td>
-              <td>{item.items.name}</td>
-              <td>{item.description}</td>
+              <td>{flower.title}</td>
+              <td>{flower.price/100}€</td>
+              <td>{flower.items.length > 1? "": flower.stock}</td>
+              <td>{flower.description}</td>
             </tr>
           ))}
         </tbody>

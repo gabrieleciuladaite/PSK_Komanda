@@ -44,7 +44,6 @@ function WorkersBlock() {
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email Address</th>
-              <th>Phone Number</th>
               <th className="remove-item" />
             </tr>
           </thead>
@@ -54,7 +53,6 @@ function WorkersBlock() {
                 <td data-title="First Name">{worker.firstName}</td>
                 <td data-title="Last Name">{worker.lastName}</td>
                 <td data-title="Email Address">{worker.email}</td>
-                <td data-title="Phone Number">{worker.phoneNumber}</td>
                 <td className="remove">
                   <button
                     type="button"

@@ -38,7 +38,7 @@ export default function Content() {
             if(response.data.role===1) history.push('/admin');
 
             localStorage.setItem('account', JSON.stringify(response.data));
-            history.push('/');
+            //history.push('/');
 
         })
             .catch(err => {

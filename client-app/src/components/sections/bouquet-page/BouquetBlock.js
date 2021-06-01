@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useParams } from "react-router";
@@ -10,6 +10,11 @@ function BouquetBlock()
   const [items, setItems] = useState([]);
   const [isChoose, setIsChoose] = useState(false);
   const { productId } = useParams();
+  const [list, setList] = useState([]);
+  const [flowerType, setFlower] = useState(null);
+  const [quantit, setQuantit] = useState(null);
+  const l = [];
+  const price = useRef(0);
   const toggleChoose = () => {
     setIsChoose(!isChoose);
   };
@@ -23,21 +28,15 @@ function BouquetBlock()
       let data = await api
         .get("/ItemBundle/" + productId)
         .then(({ data }) => data);
-      console.log("------------GET REQUEST------------");
+      price.current = data.price/100;
       setProduct(data);
-      console.log(product);
-      console.log(data.optimistiC_LOCK_VERSION);
-      console.log("----------------------------------");
     };
     const getItems = async () => {
       let data = await api
         .get("/Item")
         .then(({ data }) => data);
-      console.log("------------GET REQUEST------------");
       setItems(data);
-      console.log(items);
-      console.log("----------------------------------");
-    };
+      };
     getProduct();
     getItems();
     
@@ -67,28 +66,92 @@ function BouquetBlock()
           .catch((error) => {
             console.log(error);
             toast.error("Error occured");
+            console.log(product);
           });
       }
+
       function handleChange(e) {
-        //if(e.target.name==="price") e.target.value = e.target.valueAsNumber*100;
-        if (e.target.name === "stock") {
+        if(e.target.name === "flower") setFlower(e.target.value);
+        else if(e.target.name === "quantity") setQuantit(e.target.value);
+        else if(e.target.name==="price") 
+        {
+          price.current = e.target.valueAsNumber;
+          let temp = e.target.valueAsNumber*100;
+          console.log(temp);
+          console.log(typeof(e.target.value));
+          setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: temp}));
+          console.log(product.price);
+        }
+        else if (e.target.name === "stock") {
           console.log(e.target.value.type);
           console.log(e.target.value);
           e.target.value = parseInt(e.target.value);
           console.log(e.target.value.type);
         }
-        setProduct((prevProduct) => ({
+        else
+        {
+          setProduct((prevProduct) => ({
           ...prevProduct,
           [e.target.name]: e.target.value,
         }));
+        console.log("I did it");
+        }
+        console.log(product);
       }
+  function addFlower()
+  {
+    let data;
+    console.log(l);
+    console.log(l.length);
+
+    l[l.length] =  {
+        item:
+        {
+          name: flowerType
+        },
+        quantity: quantit
+    };
+
+    console.log(l.length);
+
+    console.log("List before");
+    console.log(list);
+
+    setList((prev)=>([
+      ...prev,{ item:
+      {
+        name: flowerType
+      },
+      quantity: quantit
+      }]
+    ));
+
+    console.log("List after");
+    console.log(list);
+    
+    setProduct((prevProduct)=>({
+      ...prevProduct, 
+      items: list
+      }));
+      console.log(product);
+  }
+  function handleBlur(e)
+  {
+    if(e.target.value==null || e.target.value==="")
+    setProduct((prevProduct)=> ({...prevProduct, [e.target.name]: 0}));
+  }
+
+  function handleSelect(e)
+  {
+    setFlower(e.target.value);
+  }
 
     return (
       <div className="section">
         <ToastContainer position="bottom-right" />
         <div className="container">
           {/* Storage Start */}
-          <h4>Edit bouquet {product.title}</h4>
+          <h4>Edit {product.title}</h4>
           <table className="andro_responsive-table">
             <thead>
               <tr>
@@ -107,28 +170,33 @@ function BouquetBlock()
                 onClick={toggleChoose} type="button">Upload</button>
               </td>
               <td data-title="Product Name">
-                  <input name="title" value={product.title} onChange={handleChange}></input>
+                  <input name="title" className="form-control" value={product.title} onChange={handleChange}></input>
               </td>
               <td data-title="Unit Price">
-                  <input name="price" onChange={handleChange} value={product.price}>
+                  <input name="price" type="number" name ="price" min="0" step="0.01" className="form-control" onChange={handleChange} value={price.current}>
                   </input>
               </td>
               <td data-title="Type of products">
-                  <select>
+                  <select name = "flower" onChange={handleSelect} className="form-control">
                   {items.map((item)=>(
                         <option key={item.itemId}>{item.name}</option>
                       ))}
                   </select>
                   <br/>
-                  <input type="number"></input>
-                    <button>Add</button>
+                  <input name="quantity"  min="0" className="form-control" type="number"onChange={handleChange} onBlur={handleBlur}  value={quantit}></input>
+                    <button onClick={addFlower} className="andro_btn-custom primary button-top">Add</button>
                     <br/>
-                    
+                    <br/>
+                    <ul>
+            {product.items === undefined? "Nothing" : product.items.map((flower)=>
+             <li>{flower.item.name} - {flower.quantity}</li>
+             )}
+          </ul>
               </td>
             </tbody>
           </table>
           <h6>Description</h6>
-          <input value={product.description}></input>
+          <input className="form-control" value={product.description}></input>
           <br></br>
           <br></br>
           <button
@@ -141,8 +209,7 @@ function BouquetBlock()
         <button
           type="button"
           onClick={updateProduct}
-          className="andro_btn-custom primary"
-        >
+          className="andro_btn-custom primary">
           Save
         </button>
           {/* Storage End */}

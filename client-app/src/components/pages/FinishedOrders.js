@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import MetaTags from "react-meta-tags";
 import Header from '../layouts/AdminHeader';
+import Footer from '../layouts/Footer';
 import Content from '../sections/finished-orders/Content';
 
 const pagelocation = 'Administration';

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import orders from '../../../data/finishedOrders.json';
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://134.209.227.30:5000/api",
+});
 
 const useSortableData = (orders, config = null) => {
     const [sortConfig, setSortConfig] = React.useState(config);
@@ -50,8 +54,8 @@ const useSortableData = (orders, config = null) => {
             <th>
               <button
                 type="button"
-                onClick={() => requestSort('orderNr')}
-                className={getClassNamesFor('orderNr')}
+                onClick={() => requestSort('cartId')}
+                className={getClassNamesFor('cartId')}
               >
                 Order Nr.
               </button>
@@ -80,7 +84,7 @@ const useSortableData = (orders, config = null) => {
                 onClick={() => requestSort('total')}
                 className={getClassNamesFor('total')}
               >
-                Total
+                Total (€)
               </button>
             </th>
             <th>
@@ -89,7 +93,7 @@ const useSortableData = (orders, config = null) => {
                 onClick={() => requestSort('orderDate')}
                 className={getClassNamesFor('orderDate')}
               >
-                Order Date
+                Order Shipping Date
               </button>
             </th>
           </tr>
@@ -97,11 +101,11 @@ const useSortableData = (orders, config = null) => {
         <tbody>
           {orders.map((item, i) => (
             <tr key={i}>
-                <td>{item.orderNr}</td>
-                <td>{item.products.join(', ')}</td>
-                <td>{item.qty.join(', ')}</td>
-                <td>{item.total}</td>
-                <td>{item.orderDate}</td>
+                <td>{item.cartId}</td>
+                <td>{item.items.itemBundle.title.join(', ')}</td>
+                <td>{item.items.quantity.join(', ')}</td>
+                <td>{item.items.reduce((sum, items) => sum = sum + items.itemBundle.price)}</td>
+                <td>{item.delivery}</td>
             </tr>
           ))}
         </tbody>
@@ -112,13 +116,28 @@ const useSortableData = (orders, config = null) => {
 
 class FinishedOrdersblock extends Component {
 
+  state = {
+    orders: [],
+  };
+
+  constructor() {
+    super();
+    this.getOrders();
+  }
+
+  getOrders = async () => {
+    let data = await api.get("/Cart/delivered").then(({ data }) => data);
+    this.setState({ orders: data });
+    console.log(this.state.orders);
+  };
+
     render() {
         return (
             <div className="section">
                 <div className="container">
                     {/* Finished Orders Start */}
                     <h4>Finished Orders</h4>
-                    <ProductTable products={orders}></ProductTable>
+                    <ProductTable products={this.state.orders}></ProductTable>
                     {/* Finished Orders End */}
                 </div>
             </div>
