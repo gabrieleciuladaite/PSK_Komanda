@@ -25,11 +25,15 @@ export default function Content() {
     const fetchItemBundles = async () => {
         const response = await axios.get('http://134.209.227.30:5000/api/ItemBundle');
         setBundleItems(response.data);
+        setRenderItems(response.data);
     }
 
     console.log(itemBundle);
 
-    const itemsComponent = itemBundle.map((item) => {
+
+
+
+    const itemsComponent = renderItems.map((item) => {
         return <div key={item.itemBundleId} className="col-md-4 col-sm-6 masonry-item">
         <div className="andro_product andro_product-has-controls">
             <div className="andro_product-thumb">
@@ -50,23 +54,21 @@ export default function Content() {
 
 
 
-
-
-
     const handleClickFlowers = () => 
     {
-        //const flowersMatch = items.filter(item => {return !item.title.toLowerCase().includes('bouquets')});
-        //setRenderItems(flowersMatch);
+        const flowersMatch = itemBundle.filter(item => {return item.items.length <= 1});
+        setRenderItems(flowersMatch);
     }
+
     const handleClickBouquets = () => 
     {
-        //const bouquetsMatch = items.filter(item => {return item.title.toLowerCase().includes('bouquets')});
-        //setShopItems(bouquetsMatch);
+        const bouquetsMatch = itemBundle.filter(item => {return item.items.length > 1});
+        setRenderItems(bouquetsMatch);
     }
 
     const handleClickAll = () => {
-        //const allMatch = items;
-        //setShopItems(allMatch);
+        const allMatch = itemBundle;
+        setRenderItems(allMatch);
     }
 
 

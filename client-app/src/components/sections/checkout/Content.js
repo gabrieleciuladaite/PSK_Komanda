@@ -6,6 +6,10 @@ import NotRegisteredModal from '../../layouts/NotRegisteredModal';
 import OrderSuccessModal from '../../layouts/OrderSuccessModal';
 import {useForm} from 'react-hook-form';
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
+import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 //rename this to class to a functional component
@@ -53,15 +57,61 @@ export default function Content() {
 
     const onSubmit = (data) => {
         console.log(data);
-        console.log(card);
-        console.log(cart);
-        setOrderModal(true);
+        //console.log(card);
+        //console.log(cart);
 
 
+        console.log(cart.items)
 
         let cartToSent = {
-            //"cartId":
+            cartId: uuidv4(),
+            items: [],
+            card: {
+                cardId: uuidv4(),
+                design: {
+                    name: card.name
+                },
+                message: card.message,
+                from: card.from,
+                to: card.to
+            },
+            shippingAddress: {
+                street: data.street,
+                apartmentNumber: data.apartmentNumber,
+                addressNumber: data.addressNumber,
+                city: data.city,
+                postCode: data.postalCode,
+            },
+            receiver: {
+                firstName: data.firstName,
+                lastName: data.lastName
+            }
         }
+
+        cart.forEach(item => {
+            cartToSent.items.push(item)
+        });
+
+        console.log(JSON.stringify(cartToSent));
+
+        const cartRequest = axios({
+            method: 'post',
+            url: 'http://134.209.227.30:5000/api/Cart',
+            data: cartToSent,
+            headers: localStorage.getItem('jwt') ? {Authorization: `Bearer ${localStorage.getItem('jwt')}`} : '',
+        }).then((response) => {
+            console.log(response.data);
+
+
+        }).catch(err => {
+            toast.error(err.message);
+            return;
+        })
+
+
+
+
+        setOrderModal(true);
 
     }
 
@@ -79,6 +129,7 @@ export default function Content() {
                 orderModal ?
                 <OrderSuccessModal /> : ''
             }
+            <ToastContainer position="bottom-right" />
             <div className="container">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row">

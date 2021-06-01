@@ -12,7 +12,7 @@ const contactinfo = [
     {
         icon: "flaticon-email",
         title: "Mail Us",
-        para: "You can also contact us through email: kazkoks.email@gmail.com",
+        para: "You can also contact us through email: flower.shop@gmail.com",
     },
     {
         icon: "flaticon-location",
