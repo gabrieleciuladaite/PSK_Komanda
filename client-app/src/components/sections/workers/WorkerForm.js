@@ -26,6 +26,7 @@ function WorkerForm(){
       toast.success("Worker is created successfully");
       localStorage.getItem('jwt', response.data.token);
     }))
+    window.location.reload();
   };
 
   function handleChange(e)
@@ -72,14 +73,13 @@ function WorkerForm(){
                   </div>
                   <div className="form-group col-xl-6">
                     <label>
-                      Phone Number <span className="text-danger">*</span>
+                      Phone Number
                     </label>
                     <input
                       type="text"
                       placeholder="Phone Number"
                       name="phoneNumber"
                       className="form-control"
-                      required
                       onChange={handleChange}
                     />
                   </div>

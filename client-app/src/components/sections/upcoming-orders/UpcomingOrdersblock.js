@@ -54,38 +54,58 @@ const useSortableData = (orders, config = null) => {
             <th>
               <button
                 type="button"
-                onClick={() => requestSort('itemBundleId')}
-                className={getClassNamesFor('itemBundleId')}
+                onClick={() => requestSort('cartId')}
+                className={getClassNamesFor('cartId')}
               >
-                itemBundleId
+                Order Nr.
               </button>
             </th>
             <th>
               <button
                 type="button"
-                onClick={() => requestSort('description')}
-                className={getClassNamesFor('description')}
+                onClick={() => requestSort('items')}
+                className={getClassNamesFor('items')}
               >
-                Description
+                Products
               </button>
             </th>
             <th>
               <button
                 type="button"
-                onClick={() => requestSort('price')}
-                className={getClassNamesFor('price')}
+                onClick={() => requestSort('quantity')}
+                className={getClassNamesFor('quantity')}
               >
-                Price
+                Quantity
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort('total')}
+                className={getClassNamesFor('total')}
+              >
+                Total (€)
+              </button>
+            </th>
+            <th>
+              <button
+                type="button"
+                onClick={() => requestSort('date')}
+                className={getClassNamesFor('date')}
+              >
+                Order Shipping Date
               </button>
             </th>
           </tr>
         </thead>
         <tbody>
           {orders.map((item) => (
-            <tr key={item.itemBundleId}>
-              <td>{item.itemBundleId}</td>
-              <td>{item.description}</td>
-              <td>{item.price}</td>
+            <tr key={item.cartId}>
+              <td>{item.cartId}</td>
+              <td>{item.items.itemBundle.title.join(" ,")}</td>
+              <td>{item.items.quantity.join(" ,")}</td>
+              <td>{item.items.reduce((sum, items) => sum = sum + items.itemBundle.price)}</td>
+              <td>{item.delivery}</td>
             </tr>
           ))}
         </tbody>
@@ -104,7 +124,7 @@ class UpcomingOrdersblock extends Component {
   }
 
   getOrders = async () => {
-    let data = await api.get("/User").then(({ data }) => data);
+    let data = await api.get("/Cart/shipped").then(({ data }) => data);
     this.setState({ orders: data });
     console.log(this.state.orders);
   };

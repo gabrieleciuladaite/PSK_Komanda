@@ -6,13 +6,13 @@ import { ToastContainer, toast } from "react-toastify";
 
 function FlowerBlock() {
   const [product, setProduct] = useState([]);
-  const [previousProduct, setPreviousProduct] = useState([]);
-  const [newProduct, setNewProduct] = useState([]);
   const { productId } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isChoose, setIsChoose] = useState(false);
   const [locking, setLocking] = useState(0);
   const state = useRef(null);
+  const price = useRef(0);
+  const lockingState = useRef(0);
 
   const togglePopUp = () => {
     setIsOpen(!isOpen);
@@ -31,19 +31,32 @@ function FlowerBlock() {
       .get("/ItemBundle/" + productId)
       .then(({ data }) => data);
     console.log("------------GET REQUEST------------");
-    state.current = data;
-    setProduct(data);
-    console.log(state.current);
-    if (!isOpen) setPreviousProduct(data);
+    lockingState.current = data.optimistiC_LOCK_VERSION;
+    console.log("in GET");
+    console.log(lockingState.current);
+    if (!isOpen)
+    {
+      setProduct(data);
+      price.current = data.price/100;
+      state.current = data;
+    } 
   };
 
   useEffect(() => {
     getProduct();
-    console.log(product);
   }, []);
 
+  useEffect(()=>{
+    getProduct();
+    console.log("Use effect");
+    console.log(product);
+    setProduct((prev)=> ({...prev, optimistiC_LOCK_VERSION: lockingState.current+1}));
+    console.log("Use effect after");
+    console.log(product);
+  }, [locking])
+
   async function updateProduct() {
-    setPreviousProduct(product);
+    state.current = product;
     await api
       .put(`/ItemBundle/${productId}`, product, {
         _method: "PUT",
@@ -66,34 +79,26 @@ function FlowerBlock() {
   }
 
   async function afterLockTrue() {
-    setLocking((previous) => previous + 1);
-    console.log(locking);
-    await getProduct();
+    getProduct();
+    console.log("in after optimistic lock");
+    console.log(lockingState);
 
-    console.log("--------------------------Previous--------------------");
-    console.log(previousProduct);
-
-    
-    console.log("--------------------------Product--------------------");
-    console.log(state.current);
-
-      console.log("---------------ALREADY IN AFTER LOCK----------");
-      console.log(product);
-      console.log("----------------------------------------------");
-      await getProduct();
-
-      setProduct((prev) => ({
+    let variable = lockingState.current+1;
+    console.log(variable);
+    setProduct((prev) => ({
         ...prev,
-        optimistiC_LOCK_VERSION: state.current.optimistiC_LOCK_VERSION
+        optimistiC_LOCK_VERSION: variable
       }));
-      
-
+     state.current.optimistiC_LOCK_VERSION = lockingState.current+1;
+     setLocking((previous) => previous + 1);
+     //console.log(locking);
       console.log("---------------ALREADY AFTER MERGE LOCK----------");
       console.log(product);
-      console.log(product.optimistiC_LOCK_VERSION+1);
+      console.log(product.optimistiC_LOCK_VERSION);
       console.log("----------------------------------------------");
+      
       await api
-        .put(`/ItemBundle/${productId}`, product, {
+        .put(`/ItemBundle/${productId}`, state.current, {
           _method: "PUT",
         })
         .then((response) => {
@@ -106,7 +111,8 @@ function FlowerBlock() {
           console.log(error);
           toast.error("Error occured");
         });
-    //let newProduct = Object.assign(product, previousProduct);
+    console.log(product);
+    window.location.reload();
   }
 
   async function afterLockFalse() {
@@ -130,7 +136,11 @@ function FlowerBlock() {
   }
 
   function handleChange(e) {
-    //if(e.target.name==="price") e.target.value = e.target.valueAsNumber*100;
+    if(e.target.name==="price") 
+    {
+      price.current = e.target.valueAsNumber;
+      e.target.value = e.target.value*100;
+    }
     if (e.target.name === "stock") {
       console.log(e.target.value.type);
       console.log(e.target.value);
@@ -179,6 +189,7 @@ function FlowerBlock() {
             <td data-title="Product Name">
               <input
                 type="text"
+                className="form-control"
                 name="title"
                 onChange={handleChange}
                 value={product.title}
@@ -187,18 +198,20 @@ function FlowerBlock() {
             <td data-title="Unit Price">
               <input
                 type="number"
+                className="form-control"
                 name="price"
                 min="0"
                 step="0.01"
                 precision={2}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={product.price}
+                value={price.current}
               ></input>
             </td>
             <td data-title="Quantity">
               <input
                 type="number"
+                className="form-control"
                 name="stock"
                 min="0"
                 onChange={handleChange}
@@ -212,24 +225,27 @@ function FlowerBlock() {
         <input
           type="text"
           name="description"
+          className="form-control"
           onChange={handleChange}
           value={product.description}
         ></input>
         <br></br>
         <br></br>
-        <button
-          type="button"
-          onClick={deleteProduct}
-          className="andro_btn-custom primary"
-        >
-          Remove
-        </button>
+        
         <button
           type="button"
           onClick={updateProduct}
-          className="andro_btn-custom primary"
+          className="andro_btn-custom primary between-buttons-right"
         >
           Save
+        </button>
+
+        <button
+          type="button"
+          onClick={deleteProduct}
+          className="andro_btn-custom primary between-buttons"
+        >
+          Remove
         </button>
         {/* Storage End */}
       </div>
@@ -273,6 +289,7 @@ function FlowerBlock() {
                 type="text"
                 name="photo"
                 placeholder="type url"
+                className="form-control"
                 onChange={handleChange}
               ></input>
               <br />

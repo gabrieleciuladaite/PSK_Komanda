@@ -2418,6 +2418,10 @@ table img {
 /* Dark Footer */
 .andro_footer.andro_footer-dark {
     background-color: #18181D;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position:relative;
 }
 
 .andro_footer.andro_footer-dark p,
