@@ -35,7 +35,7 @@ export default function Content() {
             localStorage.setItem('account', JSON.stringify(response.data));
 
             //if salyga redirectinimui
-            history.push('/shop');
+            history.push('/');
 
         }).catch(err => {
             toast.error(err.message);

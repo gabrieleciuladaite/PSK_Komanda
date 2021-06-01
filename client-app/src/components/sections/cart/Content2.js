@@ -170,7 +170,8 @@ export default function Content() {
                                             </td>
                                             <td data-title="Product">
                                                 <div className="andro_cart-product-wrapper">
-                                                    <img src={item.img} alt={item.title} />
+                                                    <img src={item.photo} alt={item.title} />
+                                                    {console.log(item)}
                                                     <div className="andro_cart-product-body">
                                                         <h6> {item.title} </h6>
                                                     </div>

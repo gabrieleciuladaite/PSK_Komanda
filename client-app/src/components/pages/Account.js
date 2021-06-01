@@ -18,7 +18,7 @@ class Account extends Component {
                     />
                 </MetaTags>
                 <Header />
-                <Content/>
+                <Content />
                 <Footer footer={{ style:"andro_footer-dark", logo:"assets/img/logo.png" }} />
             </Fragment>
         );
